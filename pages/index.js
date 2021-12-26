@@ -1,5 +1,4 @@
 import Head from 'next/head'
-import Image from 'next/image'
 import { useEffect, useState } from 'react'
 import { create } from 'ipfs-http-client'
 import languages from "../utils/language"
