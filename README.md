@@ -1,6 +1,6 @@
-#3 Ppaste
+# Ppaste
 
-IPFS based pastebin alternative.
+Decentralized pastebin created by using IPFS and Next.js. It's a simple way to share code, snippets, and other texts for free.
 
 ## Features
 
