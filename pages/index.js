@@ -1,40 +1,62 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { create } from 'ipfs-http-client'
+import languages from "../utils/language"
 
 
 export default function Home() {
 
-  // const init = async () => {
-  //   const client = create('https://ipfs.infura.io:5001/api/v0')
-  //   const added = await client.add('hello world')
-  //   console.log(added)
-  // }
+  const [content, setContent] = useState('')
+  const [language, setLanguage] = useState()
+
+  const onSubmit = async (e) => {
+    e.preventDefault()
+    const data = {
+      content,
+      language,
+      theme: 'a11y-dark',
+    }
+    const client = create('https://ipfs.infura.io:5001/api/v0')
+    const hash = await client.add(JSON.stringify(data))
+    console.log(hash)
+    setContent('')
+    setLanguage('')
+    e.target.reset()
+  }
 
 
   return (
-    <>
-      {/* create text box align to center using tailwind */}
-      <div className="flex flex-col items-center justify-center p-4 h-screen">
-        <div className="relative w-1/2 p-8 bg-[#272525] shadow-xl mx-auto rounded">
-          {/* create responsive row with two select */}
-          <div className="flex flex-row items-center justify-center">
-            <select className="bg-gray-800 text-white rounded-full px-4 py-2 m-2 col-start-3">
-              <option>Select</option>
-              <option>Option 1</option>
-              </select>
-               <select className="bg-gray-800 text-white rounded-full px-4 py-2 m-2 col-start-3">
-              <option>Select</option>
-              <option>Option 1</option>
-              </select>
-            </div>
-          {/* create input box limit to 255 characters */}
-          <textarea className="text-sm w-full p-2 max-w-xl ring-1 ring-gray-900/10 shadow-sm rounded-md dark:bg-[#333333] dark:ring-0 dark:highlight-white/5" type="text" rows="10" />
-          {/* create button to submit text */}
-          <button className="uppercase  w-full text-md bg-green-600 text-white p-2 rounded hover:bg-green-400 active:bg-green-600 font-bold transition duration-150 ease-in-out">Save</button>
+    <div className="flex flex-col m-3">
+      <form
+      onSubmit={onSubmit}
+      >
+        <textarea
+          required
+          value={content}
+          name="content"
+          onChange={(e) => setContent(e.target.value)}
+          className="text-sm w-full md:w-2/3 ring-gray-900/10 shadow-sm rounded-md dark:bg-[#333333] dark:ring-0 dark:highlight-white/5 resize-none p-3" type="text" rows="10" />
+        <div className="w-full  md:w-80">
+          <select
+          value={language}
+          name="language"
+          onChange={(e) => setLanguage(e.target.value)}
+          className="bg-[#333333] text-white rounded-md p-4 mt-3">
+            <option hidden>Select Syntax Highlighting</option>
+            <option value="" key="">Default</option>
+            {
+              languages.map(language => (
+                <option key={language} value={language}>
+                  {/* capitalize first letter */}
+                  {language.charAt(0).toUpperCase() + language.slice(1)}
+                </option>
+              ))
+            }
+          </select>
         </div>
-      </div>
-    </>
+        <button className="uppercase w-full mt-3  md:w-60 text-md bg-green-600 text-white p-2 rounded hover:bg-green-400 active:bg-green-600 font-bold transition duration-150 ease-in-out">Save</button>
+      </form>
+    </div>
   )
 }
