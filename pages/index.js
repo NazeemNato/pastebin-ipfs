@@ -24,8 +24,6 @@ export default function Home() {
       }
       const client = create('https://ipfs.infura.io:5001/api/v0')
       const hash = await client.add(JSON.stringify(data))
-      setContent('')
-      setLanguage('')
       router.push(`/${hash.path}`)
     } catch (e) {
       setLoading(false)
