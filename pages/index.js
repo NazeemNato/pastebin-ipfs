@@ -27,12 +27,9 @@ export default function Home() {
       setContent('')
       setLanguage('')
       router.push(`/${hash.path}`)
-      setLoading(false)
-      e.target.reset()
-
     } catch (e) {
       setLoading(false)
-    }
+    } 
   }
 
 
