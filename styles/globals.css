@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@500&display=swap');
+
 html,
 body {
   padding: 0;
@@ -11,6 +13,14 @@ textarea {
 	height: 300px;
   min-height: 200px;
 }
+
+.clipboard {
+  position: absolute;
+  right: 5px;
+  top: 25px;
+  padding: 6px;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
