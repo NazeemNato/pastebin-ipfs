@@ -1,3 +1,9 @@
+## 1.0.3
+
++ ipfs-http-client to ipfs-core
++ removed axios request
++ removed unwanted packages and files
+
 ## 1.0.2
 
 + Server side rendering to client side

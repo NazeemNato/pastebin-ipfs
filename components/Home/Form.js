@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { create } from 'ipfs-http-client'
+import { create } from 'ipfs-core'
 import { useRouter } from "next/router"
 import languages from "react-syntax-highlighter/dist/cjs/languages/prism/supported-languages"
 
@@ -21,8 +21,8 @@ export default function Form() {
                 theme: 'a11yDark',
                 createdAt: new Date().toISOString()
             }
-            const client = create('https://ipfs.infura.io:5001/api/v0')
-            const hash = await client.add(JSON.stringify(data))
+            const node = await create()
+            const hash = await node.add(JSON.stringify(data))
             router.push(`/${hash.path}`)
         } catch (e) {
             setLoading(false)

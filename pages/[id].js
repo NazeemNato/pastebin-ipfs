@@ -1,9 +1,7 @@
 import { useRouter } from "next/router"
 import { ViewBody, Loader } from '../components/View';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-
-
+import { create } from 'ipfs-core'
 
 export default function View() {
 
@@ -20,17 +18,26 @@ export default function View() {
 
     const fetchData = async () => {
         try {
-            const response = await axios.get("https://ipfs.infura.io/ipfs/" + id)
-            if (!response.data?.content) {
+            const node = await create()
+            const stream = node.cat(id)
+            let response = ''
+            for await (const chunk of stream) {
+                // chunks of data are returned as a Buffer, convert it back to a string
+                response += chunk.toString()
+              }
+
+            let data = JSON.parse(response)
+            
+            if (!data?.content) {
                 setData({
-                    content: `${response.data}`,
+                    content: `${data}`,
                     language: "textile",
                     createdAt: new Date().toISOString(),
                 })
                 setLoading(false)
             } else {
                 // my expected format
-                setData(response.data)
+                setData(data)
                 setLoading(false)
             }
 
